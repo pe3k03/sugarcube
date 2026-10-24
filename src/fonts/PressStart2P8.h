@@ -1,3 +1,6 @@
+// Bitmap header added for SugarCube. The font is not SugarCube copyright.
+// Font license: SIL Open Font License 1.1. See src/fonts/OFL.txt.
+
 // Press Start 2P Regular 8px bitmaps.
 // Font by Cody 'CodeMan38' Kalama, SIL Open Font License 1.1.
 // https://github.com/google/fonts/tree/main/ofl/pressstart2p

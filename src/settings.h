@@ -1,3 +1,8 @@
+// Upstream SmartClock firmware by B. van Weerd, with SugarCube changes.
+// Copyright (c) 2026 B. van Weerd. Upstream code in this file is MIT. See LICENSE.
+// Copyright (c) 2026 Peter Štieber. SugarCube changes are PolyForm Noncommercial 1.0.0. See LICENSE-SUGARCUBE.
+// Required Notice: Copyright (c) 2026 Peter Štieber. SugarCube changes may not be sold or used commercially.
+
 #ifndef SETTINGS_H
 #define SETTINGS_H
 

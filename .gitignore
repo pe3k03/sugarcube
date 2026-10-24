@@ -1,3 +1,8 @@
+# Upstream SmartClock ignore rules, with SugarCube paths added.
+# Copyright (c) 2026 B. van Weerd. Upstream rules are MIT. See LICENSE.
+# Copyright (c) 2026 Peter Štieber. SugarCube additions are PolyForm Noncommercial 1.0.0. See LICENSE-SUGARCUBE.
+# Required Notice: Copyright (c) 2026 Peter Štieber. SugarCube changes may not be sold or used commercially.
+
 .pio
 .vscode
 *.bin

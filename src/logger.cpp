@@ -1,3 +1,7 @@
+// Upstream SmartClock firmware by B. van Weerd.
+// Copyright (c) 2026 B. van Weerd. MIT License. See LICENSE.
+// The code below is unchanged from that project. See ATTRIBUTION.md.
+
 #include "logger.h"
 
 char logBuffer[LOG_BUFFER_SIZE][LOG_LINE_LENGTH];

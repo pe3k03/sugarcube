@@ -1,3 +1,7 @@
+# Upstream SmartClock firmware by B. van Weerd.
+# Copyright (c) 2026 B. van Weerd. MIT License. See LICENSE.
+# The code below is unchanged from that project. See ATTRIBUTION.md.
+
 """Generate deterministic gzip assets from the editable embedded HTML."""
 from pathlib import Path
 import gzip

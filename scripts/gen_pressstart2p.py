@@ -1,3 +1,8 @@
+# SugarCube font rasterizer.
+# Copyright (c) 2026 Peter Štieber. PolyForm Noncommercial 1.0.0. See LICENSE-SUGARCUBE.
+# Required Notice: Copyright (c) 2026 Peter Štieber. This SugarCube file may not be sold or used commercially.
+# Press Start 2P itself stays under the SIL Open Font License. See src/fonts/OFL.txt.
+
 """Rasterize Press Start 2P (SIL OFL) into 8x8 GFX bitmaps."""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont

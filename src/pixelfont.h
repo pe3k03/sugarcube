@@ -1,3 +1,9 @@
+// SugarCube bitmap header.
+// Copyright (c) 2026 Peter Štieber for this file's SugarCube-specific code.
+// PolyForm Noncommercial 1.0.0. See LICENSE-SUGARCUBE and ATTRIBUTION.md.
+// Required Notice: Copyright (c) 2026 Peter Štieber. SugarCube code in this file may not be sold or used commercially.
+// The Visitor glyph shapes below are Brian Kent's freeware and are not relicensed.
+
 // Visitor TT1 BRK at its native 1px grid. Cell is 9 rows; digit ink is rows 2-6.
 // Font by Brian Kent, freeware: https://www.dafont.com/visitor.font
 #pragma once
