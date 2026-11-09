@@ -710,7 +710,10 @@ void handleVersionJson() {
     String json = "{";
     json += "\"version\":\"" + String(FIRMWARE_VERSION_STRING) + "\",";
     json += "\"deviceName\":\"" + String(appSettings.deviceName) + "\",";
-    json += "\"hostName\":\"" + String(hostName) + "\"";
+    json += "\"hostName\":\"" + String(hostName) + "\",";
+    json += "\"setupNetwork\":\"" + String(WIFI_AP_NAME) + "\",";
+    json += "\"setupPassword\":\"" + apPassword + "\",";
+    json += "\"setupAddress\":\"192.168.4.1\"";
     json += "}";
     sendJsonResponse(200, json);
 }

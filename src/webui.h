@@ -1110,9 +1110,7 @@ input[type="submit"]:disabled,
                         <label class="toggle switch-row"><span>24-hour</span><input data-live type="checkbox" id="use24Hour"></label>
                         <label class="toggle switch-row"><span>Seconds</span><input data-live type="checkbox" id="showSeconds"></label>
                         <label class="toggle switch-row"><span>Footer IP</span><input data-live type="checkbox" id="showIp"></label>
-                        <label class="toggle switch-row"><span>Day off</span><input data-live type="checkbox" id="awayMode"></label>
                     </div>
-                    <small>Day off hides the glucose number and shows an out-of-office face. Save changes to keep it.</small>
                 </section>
 
                 <section class="display-section">
@@ -1297,6 +1295,12 @@ input[type="submit"]:disabled,
                     <div class="status-item"><span>Firmware</span><span id="systemVersion">--</span></div>
                     <div class="status-item"><span>Storage</span><span id="systemStorage">--</span></div>
                     <div class="status-item"><span>RAM</span><span id="systemMemory">--</span></div>
+                </div>
+                <div class="panel-note" style="margin-top: 18px;">SugarCube stays available while the cube is on Wi-Fi. The network is hidden. Add it on your phone with the name and password below, then open the address.</div>
+                <div class="status-list" style="margin-top: 12px;">
+                    <div class="status-item"><span>Network</span><span id="setupNetwork">SugarCube</span></div>
+                    <div class="status-item"><span>Password</span><span id="setupPassword">--</span></div>
+                    <div class="status-item"><span>Address</span><span id="setupAddress">192.168.4.1</span></div>
                 </div>
                 <div class="button-row" style="margin-top: 14px;">
                     <button type="button" class="ghost" onclick="restartDevice()">Restart</button>
@@ -2059,7 +2063,6 @@ function applyDashboardState(dashboardState) {
     setChecked("use24Hour", config.use24Hour);
     setChecked("showSeconds", config.showSeconds);
     setChecked("showIp", config.showIp);
-    setChecked("awayMode", Boolean(config.awayMode));
 }
 
 function updateWeatherModeUI() {
@@ -2172,8 +2175,7 @@ function buildConfigPayload() {
         rotationIntervalSec: 10,
         use24Hour: document.getElementById("use24Hour").checked,
         showSeconds: document.getElementById("showSeconds").checked,
-        showIp: document.getElementById("showIp").checked,
-        awayMode: document.getElementById("awayMode").checked
+        showIp: document.getElementById("showIp").checked
     };
 }
 
@@ -2977,6 +2979,9 @@ async function loadAllState() {
         document.getElementById("systemVersion").textContent = firmwareVersion;
         document.getElementById("systemStorage").textContent = `${formatBytes(spaceState.total)} / ${formatBytes(spaceState.free)} free`;
         document.getElementById("systemMemory").textContent = `${formatBytes(spaceState.ramFree)} free · largest ${formatBytes(spaceState.ramLargest)}`;
+        document.getElementById("setupNetwork").textContent = versionState.setupNetwork || "SugarCube";
+        document.getElementById("setupPassword").textContent = versionState.setupPassword || "--";
+        document.getElementById("setupAddress").textContent = versionState.setupAddress || "192.168.4.1";
 
         if (dirty && feedDirty) {
             setSyncState("Display + feeds draft", "live");

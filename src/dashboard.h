@@ -70,7 +70,6 @@ struct DashboardConfig {
     bool use24Hour;
     bool showSeconds;
     bool showIp;
-    bool awayMode;
     bool enabledPages[DASHBOARD_PAGE_COUNT];
 };
 
