@@ -138,6 +138,7 @@ void setConfigDefaults() {
     dashboardConfig.use24Hour = true;
     dashboardConfig.showSeconds = false;
     dashboardConfig.showIp = false;
+    dashboardConfig.awayMode = false;
     enableAllPages();
 }
 
@@ -220,7 +221,8 @@ bool configEquals(const DashboardConfig &left, const DashboardConfig &right) {
         left.rotationIntervalSec != right.rotationIntervalSec ||
         left.use24Hour != right.use24Hour ||
         left.showSeconds != right.showSeconds ||
-        left.showIp != right.showIp) {
+        left.showIp != right.showIp ||
+        left.awayMode != right.awayMode) {
         return false;
     }
 
@@ -256,6 +258,7 @@ void fillConfigJson(JsonObject root) {
     root["use24Hour"] = dashboardConfig.use24Hour;
     root["showSeconds"] = dashboardConfig.showSeconds;
     root["showIp"] = dashboardConfig.showIp;
+    root["awayMode"] = dashboardConfig.awayMode;
 
     JsonObject customTheme = root["customTheme"].to<JsonObject>();
     customTheme["background"] = dashboardConfig.customBackground;
@@ -396,6 +399,9 @@ void applyConfigObject(JsonObjectConst root) {
     }
     if (!root["showIp"].isNull()) {
         dashboardConfig.showIp = root["showIp"].as<bool>();
+    }
+    if (!root["awayMode"].isNull()) {
+        dashboardConfig.awayMode = root["awayMode"].as<bool>();
     }
 
     JsonObjectConst customTheme = root["customTheme"].as<JsonObjectConst>();

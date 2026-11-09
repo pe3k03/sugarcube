@@ -11,7 +11,8 @@
 enum ButtonPress {
     BUTTON_NONE = 0,
     BUTTON_SHORT = 1,
-    BUTTON_LONG = 2
+    BUTTON_LONG = 2,
+    BUTTON_HOLD = 3
 };
 
 // Initialize button GPIO and state

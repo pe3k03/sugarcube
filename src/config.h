@@ -15,7 +15,8 @@
 #define DISPLAY_HEIGHT 240
 
 // WiFi settings
-#define WIFI_AP_NAME "SugarCube-Setup"
+#define WIFI_AP_NAME "SugarCube"
+#define WIFI_AP_HIDDEN 1
 // AP password is auto-generated (8-digit numeric) at runtime
 #define WIFI_CONNECTION_TIMEOUT 30000  // 30 seconds per attempt
 #define WIFI_RECONNECT_INTERVAL 300000 // Try to reconnect every 5 minutes in AP mode
@@ -40,6 +41,7 @@
 #define BUTTON_DEBOUNCE_MS 50
 #define BUTTON_SHORT_PRESS_MAX_MS 800
 #define BUTTON_LONG_PRESS_MIN_MS 2000
+#define BUTTON_HOLD_PRESS_MIN_MS 5000
 
 // Filesystem
 

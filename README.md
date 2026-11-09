@@ -14,7 +14,7 @@ PlatformIO environment `nodemcuv2`:
 pio run -e nodemcuv2
 ```
 
-The firmware image is `.pio/build/nodemcuv2/firmware.bin`. A built copy of version 1.0.0 is attached to the [v1.0.0 release](https://github.com/pseter17/sugarcube/releases/tag/v1.0.0) as `sugarcube-1.0.0.bin`. Upload that file from the device dashboard. Wi-Fi credentials, the admin password, and the Nightscout token are stored on the device and are not part of this repository.
+The firmware image is `.pio/build/nodemcuv2/firmware.bin`. A built copy of version 1.0.1 is attached to the [v1.0.1 release](https://github.com/pseter17/sugarcube/releases/tag/v1.0.1) as `sugarcube-1.0.1.bin`. Upload that file from the device dashboard. Wi-Fi credentials, the admin password, and the Nightscout token are stored on the device and are not part of this repository.
 
 ## Contributors
 

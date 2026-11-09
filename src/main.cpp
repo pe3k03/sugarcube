@@ -134,7 +134,7 @@ void ensureSetupAP(bool paintScreen) {
     }
     lastApStartAttempt = millis();
     WiFi.mode(WIFI_AP_STA);
-    setupApStarted = WiFi.softAP(WIFI_AP_NAME, apPassword.c_str());
+    setupApStarted = WiFi.softAP(WIFI_AP_NAME, apPassword.c_str(), 1, WIFI_AP_HIDDEN);
     if (setupApStarted) {
         setupDns.start(53, "*", WiFi.softAPIP());
         if (paintScreen) {
@@ -162,10 +162,43 @@ void trackWiFiReconnectAttempt(bool active) {
     lastWiFiReconnectAttempt = wifiReconnectStartedAt;
 }
 
-void setupWiFi() {
-    if (apPassword.isEmpty()) {
-        apPassword = generateRandomPassword(8);
+void loadOrCreateApPassword() {
+    if (!apPassword.isEmpty()) return;
+    File file = LittleFS.open("/setup-ap.txt", "r");
+    if (file) {
+        String saved = file.readString();
+        file.close();
+        saved.trim();
+        bool ok = saved.length() == 8;
+        for (unsigned int i = 0; ok && i < saved.length(); ++i) {
+            if (saved[i] < '0' || saved[i] > '9') ok = false;
+        }
+        if (ok) {
+            apPassword = saved;
+            return;
+        }
     }
+    apPassword = generateRandomPassword(8);
+    File out = LittleFS.open("/setup-ap.txt", "w");
+    if (out) {
+        out.print(apPassword);
+        out.close();
+    }
+}
+
+void keepSetupApAvailable() {
+    int channel = WiFi.channel();
+    if (channel < 1 || channel > 13) channel = 1;
+    WiFi.mode(WIFI_AP_STA);
+    setupApStarted = WiFi.softAP(WIFI_AP_NAME, apPassword.c_str(), channel, WIFI_AP_HIDDEN);
+    if (setupApStarted) {
+        setupDns.start(53, "*", WiFi.softAPIP());
+        logPrintf(F("Setup AP stays up on %s channel %d, open 192.168.4.1"), WIFI_AP_NAME, channel);
+    }
+}
+
+void setupWiFi() {
+    loadOrCreateApPassword();
     applyConfiguredHostname();
     wifiFailsafeMode = true;
     // Keep setup access available while the station connects. The splash stays
@@ -180,10 +213,7 @@ void monitorWiFi() {
         wifiReconnectActive = false;
         if (wifiFailsafeMode) {
             wifiFailsafeMode = false;
-            WiFi.softAPdisconnect(true);
-            setupDns.stop();
-            setupApStarted = false;
-            WiFi.mode(WIFI_STA);
+            keepSetupApAvailable();
             snprintf(displayState.ipInfo, sizeof(displayState.ipInfo), "%s", WiFi.localIP().toString().c_str());
             displayShowDashboard();
             logPrintf(F("WiFi connected: %s"), WiFi.localIP().toString().c_str());
@@ -600,7 +630,7 @@ void setup() {
 
 void loop() {
 
-    if (wifiFailsafeMode) {
+    if (setupApStarted) {
         setupDns.processNextRequest();
     }
 
@@ -634,6 +664,9 @@ void loop() {
     ButtonPress buttonPress = buttonUpdate();
     if (buttonPress == BUTTON_SHORT) {
         displayCycleNextPage();
+    } else if (buttonPress == BUTTON_HOLD) {
+        if (!setupApStarted) ensureSetupAP(false);
+        displayShowTemporaryMessage(String(WIFI_AP_NAME) + "\n" + apPassword + "\n192.168.4.1", 20000UL);
     } else if (buttonPress == BUTTON_LONG) {
         displayToggleBacklight();
     }

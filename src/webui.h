@@ -1110,7 +1110,9 @@ input[type="submit"]:disabled,
                         <label class="toggle switch-row"><span>24-hour</span><input data-live type="checkbox" id="use24Hour"></label>
                         <label class="toggle switch-row"><span>Seconds</span><input data-live type="checkbox" id="showSeconds"></label>
                         <label class="toggle switch-row"><span>Footer IP</span><input data-live type="checkbox" id="showIp"></label>
+                        <label class="toggle switch-row"><span>Day off</span><input data-live type="checkbox" id="awayMode"></label>
                     </div>
+                    <small>Day off hides the glucose number and shows an out-of-office face. Save changes to keep it.</small>
                 </section>
 
                 <section class="display-section">
@@ -1563,13 +1565,13 @@ function updateAuthGuidance() {
         document.getElementById("authHint").textContent = authProvisionedThisBoot
             ? "A generated setup password was created on this boot. If you missed it, show it on the device screen."
             : "This device is still using its generated setup password. You can show it on the device screen.";
-        setupNote.innerHTML = "<strong>First install or reset</strong>Connect to <code>SugarCube-Setup</code>, open <code>192.168.4.1</code>, then tap <code>Show password on device</code> if you missed the setup password.";
+        setupNote.innerHTML = "<strong>First install or reset</strong>The setup network is hidden. Add a network named <code>SugarCube</code>, open <code>192.168.4.1</code>, then tap <code>Show password on device</code> if you missed the setup password.";
         recoveryNote.innerHTML = "<strong>Security model</strong>The reveal action only works while the generated setup password is still active. After you replace it, the device keeps only a secure hash.";
         return;
     }
 
     document.getElementById("authHint").textContent = "Sign in to manage the device.";
-    setupNote.innerHTML = "<strong>First install or reset</strong>Connect to <code>SugarCube-Setup</code> and open <code>192.168.4.1</code>. New devices provisioned by this firmware can reveal the generated setup password from this page.";
+    setupNote.innerHTML = "<strong>First install or reset</strong>The setup network is hidden. Add a network named <code>SugarCube</code> and open <code>192.168.4.1</code>. New devices provisioned by this firmware can reveal the generated setup password from this page.";
     recoveryNote.innerHTML = "<strong>Forgot a password?</strong>Custom or older passwords cannot be displayed because only a secure hash is stored. Use 5 quick power cycles to factory reset, then sign in with the new generated setup password.";
 }
 
@@ -2057,6 +2059,7 @@ function applyDashboardState(dashboardState) {
     setChecked("use24Hour", config.use24Hour);
     setChecked("showSeconds", config.showSeconds);
     setChecked("showIp", config.showIp);
+    setChecked("awayMode", Boolean(config.awayMode));
 }
 
 function updateWeatherModeUI() {
@@ -2169,7 +2172,8 @@ function buildConfigPayload() {
         rotationIntervalSec: 10,
         use24Hour: document.getElementById("use24Hour").checked,
         showSeconds: document.getElementById("showSeconds").checked,
-        showIp: document.getElementById("showIp").checked
+        showIp: document.getElementById("showIp").checked,
+        awayMode: document.getElementById("awayMode").checked
     };
 }
 

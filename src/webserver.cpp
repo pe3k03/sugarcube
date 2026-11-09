@@ -564,7 +564,7 @@ void startQueuedWiFiConnect() {
     WiFi.persistent(false);
     WiFi.setAutoReconnect(true);
     WiFi.mode(WIFI_AP_STA);
-    WiFi.softAP(WIFI_AP_NAME, apPassword.c_str());
+    WiFi.softAP(WIFI_AP_NAME, apPassword.c_str(), 1, WIFI_AP_HIDDEN);
     char hostname[SETTINGS_HOSTNAME_LENGTH];
     copyConfiguredHostname(hostname, sizeof(hostname));
     WiFi.hostname(hostname);
@@ -588,7 +588,7 @@ void failWiFiConnectTask(const __FlashStringHelper *reason) {
     WiFi.persistent(wifiConnectTask.previousPersistent);
     memset(wifiConnectTask.password, 0, sizeof(wifiConnectTask.password));
     memset(wifiConnectTask.previousPassword, 0, sizeof(wifiConnectTask.previousPassword));
-    WiFi.softAP(WIFI_AP_NAME, apPassword.c_str());
+    WiFi.softAP(WIFI_AP_NAME, apPassword.c_str(), 1, WIFI_AP_HIDDEN);
     wifiFailsafeMode = true;
     displayShowAPScreen(WIFI_AP_NAME, apPassword.c_str(), WiFi.softAPIP().toString().c_str());
 }

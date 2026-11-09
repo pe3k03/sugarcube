@@ -875,9 +875,37 @@ int waitingPunIndex() {
     return current;
 }
 
+int awayCaptionIndex() {
+    static const char *const captions[] = {
+        "OUT OF OFFICE",
+        "BE RIGHT BACK",
+        "SUGAR NAP",
+        "NOTHING TO SEE",
+        "SHH"
+    };
+    constexpr int count = static_cast<int>(sizeof(captions) / sizeof(captions[0]));
+    return static_cast<int>((millis() / 8000UL) % count);
+}
+
+const char *awayCaption() {
+    static const char *const captions[] = {
+        "OUT OF OFFICE",
+        "BE RIGHT BACK",
+        "SUGAR NAP",
+        "NOTHING TO SEE",
+        "SHH"
+    };
+    return captions[awayCaptionIndex()];
+}
+
 void hashNightscoutData(uint32_t &hash) {
     const NightscoutRuntime &ns = feedRuntime.nightscout;
     const NightscoutConfig &cfg = feedConfig.nightscout;
+    hashValue(hash, dashboardConfig.awayMode);
+    if (dashboardConfig.awayMode) {
+        hashValue(hash, awayCaptionIndex());
+        return;
+    }
     hashValue(hash, feedsNightscoutConfigured());
     hashValue(hash, ns.hasData);
     hashValue(hash, ns.sgv);
@@ -1192,6 +1220,21 @@ void drawPixelText(int x, int y, const char *text, int scale, uint16_t color, in
     }
 }
 
+void drawAwayFace() {
+    tft.fillCircle(86, 52, 14, kNsWhite);
+    tft.fillCircle(154, 52, 14, kNsWhite);
+    tft.fillCircle(90, 52, 5, TFT_BLACK);
+    tft.fillCircle(158, 52, 5, TFT_BLACK);
+    for (int step = 0; step <= 28; ++step) {
+        const float angle = (20.0f + step * (140.0f / 28.0f)) * (PI / 180.0f);
+        const int x = 120 + static_cast<int>(cosf(angle) * 34.0f);
+        const int y = 96 + static_cast<int>(sinf(angle) * 24.0f);
+        tft.fillCircle(x, y, 2, kNsCyan);
+    }
+    drawPixelText(120, 128, "ooo", 8, kNsWhite, 1);
+    drawPixelText(120, 206, awayCaption(), 2, kNsCyan, 1);
+}
+
 // Classic open arrowheads. Scaled so the whole arrow is as tall as the glucose digits.
 constexpr int kArrowCols = 9;
 constexpr int kArrowRows = 9;
@@ -1421,6 +1464,13 @@ void renderNightscoutPage() {
         nsPaint = {};
     }
     footerClockCache[0] = '\0';
+
+    if (dashboardConfig.awayMode) {
+        tft.fillScreen(TFT_BLACK);
+        nsPaint = {};
+        drawAwayFace();
+        return;
+    }
 
     if (!ns.hasData) {
         if (incremental) tft.fillScreen(TFT_BLACK);

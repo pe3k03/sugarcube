@@ -49,7 +49,10 @@ ButtonPress buttonUpdate() {
                 logPrintf(F("Button released after %lu ms"), pressDuration);
 
                 // Determine press type
-                if (pressDuration >= BUTTON_LONG_PRESS_MIN_MS) {
+                if (pressDuration >= BUTTON_HOLD_PRESS_MIN_MS) {
+                    logPrint(F("Hold press detected"));
+                    return BUTTON_HOLD;
+                } else if (pressDuration >= BUTTON_LONG_PRESS_MIN_MS) {
                     logPrint(F("Long press detected"));
                     return BUTTON_LONG;
                 } else if (pressDuration <= BUTTON_SHORT_PRESS_MAX_MS) {
